@@ -47,9 +47,10 @@ module Crometheus
           Dir.each_child("#{@procfs}/#{@pid}/fd") do |node|
             open_fds += 1
           end
-          unless File.each_line("#{@procfs}/#{@pid}/limits") { |line| line =~ /^Max open files\s+(\d+)/ }
-            raise Exceptions::InstrumentationError.new(
-              "\"Max open files\" not found in #{@procfs}/#{@pid}/limits")
+          limits = %w()
+          File.each_line("#{@procfs}/#{@pid}/limits") {|line| limits << line}
+          unless limits.find &.=~ /^Max open files\s+(\d+)/
+            raise Exception.new("\"Max open files\" not found in /proc/#{@pid}/limits")
           end
           max_fds = $1.to_f
           parts = File.read("#{@procfs}/#{@pid}/stat").split(")")[-1].split

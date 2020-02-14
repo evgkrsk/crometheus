@@ -18,7 +18,7 @@ module Crometheus
       Type::Gauge
     end
 
-    def samples
+    def samples : Nil
       tms = Process.times
       gc_stats = GC.stats
       yield Sample.new(gc_stats.heap_size.to_f, suffix: "gc_heap_bytes")
@@ -41,13 +41,13 @@ module Crometheus
         super(name, docstring, register_with)
       end
 
-      def samples
+      def samples : Nil
         begin
           open_fds = 0
           Dir.each_child("#{@procfs}/#{@pid}/fd") do |node|
             open_fds += 1
           end
-          unless File.each_line("#{@procfs}/#{@pid}/limits").find &.=~ /^Max open files\s+(\d+)/
+          unless File.each_line("#{@procfs}/#{@pid}/limits") { |line| line =~ /^Max open files\s+(\d+)/ }
             raise Exceptions::InstrumentationError.new(
               "\"Max open files\" not found in #{@procfs}/#{@pid}/limits")
           end
@@ -58,7 +58,7 @@ module Crometheus
           start_time = @start_time || begin
             jiffies = parts[19].to_f
             tick_rate = LibC.sysconf(LibC::SC_CLK_TCK)
-            unless File.each_line("#{@procfs}/stat").find &.=~ /^btime\s+(\d+)/
+            unless File.each_line("#{@procfs}/stat") { |line| line =~ /^btime\s+(\d+)/ }
               raise Exceptions::InstrumentationError.new("\"btime\" not found in #{@procfs}/stat")
             end
             boot_time = $1.to_f

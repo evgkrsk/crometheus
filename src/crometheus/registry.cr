@@ -95,10 +95,10 @@ module Crometheus
     # Returns `false` immediately if this registry is already serving.
     def run_server
       return false if @server_on
-      @server = server = HTTP::Server.new(@host, @port, [get_handler])
+      @server = server = HTTP::Server.new([get_handler])
       @server_on = true
       begin
-        server.listen
+        server.listen(@host, @port)
       ensure
         @server_on = false
       end

@@ -78,11 +78,11 @@ module Crometheus
     # Yields to the block, then passes the block's runtime to
     # `#observe`.
     def measure_runtime(&block)
-      t0 = Time.now
+      t0 = Time.local
       begin
         return yield
       ensure
-        t1 = Time.now
+        t1 = Time.local
         observe((t1 - t0).to_f)
       end
     end
@@ -90,7 +90,7 @@ module Crometheus
     # Yields one `Sample` for each bucket, in addition to one for
     # `count` (equal to the infinity bucket) and one for `sum`. See
     # `Metric#samples`.
-    def samples(&block : Sample -> Nil)
+    def samples(&block : Sample -> Nil) : Nil
       yield Sample.new(@buckets[Float64::INFINITY], suffix: "count")
       yield Sample.new(@sum, suffix: "sum")
       @buckets.each do |le, value|

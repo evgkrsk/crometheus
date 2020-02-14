@@ -55,10 +55,10 @@ describe Crometheus::Counter do
   describe ".count_exceptions_of_type" do
     it "increment when the block raises the given type of exception" do
       counter = Crometheus::Counter.new(:x, "", nil)
-      exceptions = [CrometheusTestException.new, KeyError.new, DivisionByZero.new,
+      exceptions = [CrometheusTestException.new, KeyError.new, DivisionByZeroError.new,
         CrometheusTestException.new, CrometheusTestException.new]
       exceptions.each do |ex|
-        expect_raises do
+        expect_raises(Exception) do
           Crometheus::Counter.count_exceptions_of_type(counter, CrometheusTestException) {raise ex}
         end
       end

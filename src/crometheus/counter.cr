@@ -48,7 +48,7 @@ module Crometheus
     # 100.times do
     #   begin
     #     counter.count_exceptions {risky_code}
-    #   rescue DivisionByZero
+    #   rescue DivisionByZeroError
     #   end
     # end
     # puts counter.get # approximately 50

@@ -38,11 +38,11 @@ module Crometheus
     # Yields to the block, then passes the block's runtime to
     # `#observe`.
     def measure_runtime(&block)
-      t0 = Time.now
+      t0 = Time.local
       begin
         yield
       ensure
-        t1 = Time.now
+        t1 = Time.local
         observe((t1 - t0).to_f)
       end
     end

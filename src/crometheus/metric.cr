@@ -164,7 +164,7 @@ module Crometheus
       # Iteratively calls `samples` on each metric in the collection,
       # yielding each received `Sample`.
       # See `Metric#samples`.
-      def samples(&block : Sample -> Nil)
+      def samples(&block : Sample -> Nil) : Nil
         @metrics.each do |labels, metric|
           metric.samples {|ss| ss.labels.merge!(labels.to_h); yield ss}
         end

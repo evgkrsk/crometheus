@@ -42,16 +42,16 @@ module Crometheus
 
     # Sets the gauge value to the current UNIX timestamp.
     def set_to_current_time
-      set Time.now.epoch_f
+      set Time.local.to_unix_f
     end
 
     # Yields, then sets the gauge value to the block's runtime.
     def measure_runtime
-      t0 = Time.now
+      t0 = Time.local
       begin
         yield
       ensure
-        t1 = Time.now
+        t1 = Time.local
         set((t1 - t0).to_f)
       end
     end

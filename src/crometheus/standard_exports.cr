@@ -59,7 +59,9 @@ module Crometheus
           start_time = @start_time || begin
             jiffies = parts[19].to_f
             tick_rate = LibC.sysconf(LibC::SC_CLK_TCK)
-            unless File.each_line("#{@procfs}/stat") { |line| line =~ /^btime\s+(\d+)/ }
+            stat = %w()
+            File.each_line("#{@procfs}/stat") { |line| stat << line }
+            unless stat.find &.=~ /^btime\s+(\d+)/
               raise Exceptions::InstrumentationError.new("\"btime\" not found in #{@procfs}/stat")
             end
             boot_time = $1.to_f

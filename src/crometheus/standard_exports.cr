@@ -44,8 +44,8 @@ module Crometheus
       def samples
         begin
           open_fds = 0
-          Dir.foreach("#{@procfs}/#{@pid}/fd") do |node|
-            open_fds += 1 unless "." == node || ".." == node
+          Dir.each_child("#{@procfs}/#{@pid}/fd") do |node|
+            open_fds += 1
           end
           unless File.each_line("#{@procfs}/#{@pid}/limits").find &.=~ /^Max open files\s+(\d+)/
             raise Exceptions::InstrumentationError.new(

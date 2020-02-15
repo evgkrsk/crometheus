@@ -18,7 +18,7 @@ module Crometheus
       Type::Gauge
     end
 
-    def samples : Nil
+    def samples
       tms = Process.times
       gc_stats = GC.stats
       yield Sample.new(gc_stats.heap_size.to_f, suffix: "gc_heap_bytes")
@@ -41,7 +41,7 @@ module Crometheus
         super(name, docstring, register_with)
       end
 
-      def samples : Nil
+      def samples
         begin
           open_fds = 0
           Dir.each_child("#{@procfs}/#{@pid}/fd") do |node|

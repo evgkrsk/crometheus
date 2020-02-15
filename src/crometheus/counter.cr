@@ -62,7 +62,7 @@ module Crometheus
 
     # Yields a single Sample bearing the counter value. See
     # `Metric#samples`.
-    def samples(&block : Sample -> Nil) : Nil
+    def samples(&block : Sample -> Nil)
       yield Sample.new(@value)
     end
 

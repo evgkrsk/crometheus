@@ -55,7 +55,7 @@ module Crometheus
     # Yields one `Sample` for each time series this metric represents.
     # Called by `Registry` to collect data for exposition.
     # Users generally do not need to call this.
-    abstract def samples(&block : Sample -> Nil) : Nil
+    abstract def samples(&block : Sample -> Nil)
 
     # Returns the type of Prometheus metric this class represents.
     # Should be overridden to return the appropriate member of `Type`.
@@ -164,7 +164,7 @@ module Crometheus
       # Iteratively calls `samples` on each metric in the collection,
       # yielding each received `Sample`.
       # See `Metric#samples`.
-      def samples(&block : Sample -> Nil) : Nil
+      def samples(&block : Sample -> Nil)
         @metrics.each do |labels, metric|
           metric.samples {|ss| ss.labels.merge!(labels.to_h); yield ss}
         end

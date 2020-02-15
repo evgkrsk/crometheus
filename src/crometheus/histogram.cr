@@ -90,7 +90,7 @@ module Crometheus
     # Yields one `Sample` for each bucket, in addition to one for
     # `count` (equal to the infinity bucket) and one for `sum`. See
     # `Metric#samples`.
-    def samples(&block : Sample -> Nil) : Nil
+    def samples(&block : Sample -> Nil)
       yield Sample.new(@buckets[Float64::INFINITY], suffix: "count")
       yield Sample.new(@sum, suffix: "sum")
       @buckets.each do |le, value|

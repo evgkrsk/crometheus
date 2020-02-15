@@ -48,7 +48,7 @@ module Crometheus
     end
 
     # Yields two samples, one for `count` and one for `sum`. See `Metric#samples`.
-    def samples(&block : Sample -> Nil) : Nil
+    def samples(&block : Sample -> Nil)
       yield Sample.new(@count, suffix: "count")
       yield Sample.new(@sum, suffix: "sum")
     end

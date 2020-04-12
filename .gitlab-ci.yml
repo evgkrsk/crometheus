@@ -7,7 +7,7 @@ stages:
 spec:
   stage: test
   script:
-  - crystal spec
+  - crystal spec --error-trace
   - crystal doc
   - mv docs public
   artifacts:

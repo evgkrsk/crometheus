@@ -126,7 +126,7 @@ spec_summary1_sum 100.0
 
     it "stops serving" do
       registry.stop_server.should eq true
-      expect_raises(Errno) do
+      expect_raises(Socket::ConnectError) do
         HTTP::Client.get "http://localhost:5000/metrics"
       end
     end

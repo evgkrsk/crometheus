@@ -1,3 +1,6 @@
+## *0.2.2* - 2020-04-12
+* Fix compatibility with crystal 0.34.0
+
 ## *0.2.1* - unreleased
 * Fix compatibility with crystal 0.33.0
 

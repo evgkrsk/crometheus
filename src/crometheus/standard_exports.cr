@@ -67,7 +67,7 @@ module Crometheus
             boot_time = $1.to_f
             @start_time = (jiffies / tick_rate) + boot_time
           end
-        rescue err : Errno
+        rescue err : Exception
           raise Exceptions::InstrumentationError.new(
             "Error reading procfs: #{err.message}", err)
         rescue err : IndexError

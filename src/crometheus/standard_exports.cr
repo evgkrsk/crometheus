@@ -44,7 +44,7 @@ module Crometheus
       def samples
         begin
           open_fds = 0
-          Dir.each_child("#{@procfs}/#{@pid}/fd") do |node|
+          Dir.each_child("#{@procfs}/#{@pid}/fd") do |_|
             open_fds += 1
           end
           limits = %w()
@@ -67,12 +67,12 @@ module Crometheus
             boot_time = $1.to_f
             @start_time = (jiffies / tick_rate) + boot_time
           end
-        rescue err : Exception
-          raise Exceptions::InstrumentationError.new(
-            "Error reading procfs: #{err.message}", err)
         rescue err : IndexError
           raise Exceptions::InstrumentationError.new(
             "Error reading procfs: #{@procfs}/#{@pid}/stat malformed?", err)
+        rescue err : Exception
+          raise Exceptions::InstrumentationError.new(
+            "Error reading procfs: #{err.message}", err)
         end
 
         super { |sample| yield sample }

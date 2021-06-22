@@ -4,7 +4,7 @@ require "../src/crometheus/histogram"
 describe Crometheus::Histogram do
   describe ".new" do
     it "allows buckets to be set by default" do
-      histogram = Crometheus::Histogram.new(:x, "", nil).buckets.keys.should eq([
+      Crometheus::Histogram.new(:x, "", nil).buckets.keys.should eq([
         0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0,
         Float64::INFINITY
       ])
@@ -19,12 +19,12 @@ describe Crometheus::Histogram do
 
   describe "#linear_buckets" do
     it "creates linearly increasing buckets" do
-      histogram = Crometheus::Histogram.new(:x, "", nil,
+      Crometheus::Histogram.new(:x, "", nil,
         buckets: Crometheus::Histogram.linear_buckets(1, 2, 5)
       ).buckets.keys.should eq [
         1.0, 3.0, 5.0, 7.0, 9.0, Float64::INFINITY]
 
-      histogram = Crometheus::Histogram.new(:x, "", nil,
+      Crometheus::Histogram.new(:x, "", nil,
         buckets: Crometheus::Histogram.linear_buckets(-20, 10, 4)
       ).buckets.keys.should eq [
         -20.0, -10.0, 0.0, 10.0, Float64::INFINITY]
@@ -33,12 +33,12 @@ describe Crometheus::Histogram do
 
   describe "#geometric_buckets" do
     it "returns a geometrically increasing Array of Float64s" do
-      histogram = Crometheus::Histogram.new(:x, "", nil,
+      Crometheus::Histogram.new(:x, "", nil,
         buckets: Crometheus::Histogram.geometric_buckets(1, 2, 4)
       ).buckets.keys.should eq [
         1.0, 2.0, 4.0, 8.0, Float64::INFINITY]
 
-      histogram = Crometheus::Histogram.new(:x, "", nil,
+      Crometheus::Histogram.new(:x, "", nil,
         buckets: Crometheus::Histogram.geometric_buckets(2, 1.5, 5)
       ).buckets.keys.should eq [
         2.0, 3.0, 4.5, 6.75, 10.125, Float64::INFINITY]
@@ -135,8 +135,8 @@ describe Crometheus::Histogram do
         Crometheus::Sample.new(4.0, labels: {:le => "+Inf"}, suffix: "bucket")
       ]
       get_samples(histogram1).size.should eq expected.size
-      get_samples(histogram1).zip(expected).each do |actual, expected|
-        actual.should eq expected
+      get_samples(histogram1).zip(expected).each do |actual, expected1|
+        actual.should eq expected1
       end
 
       histogram2 = Crometheus::Histogram.new(:x, "", nil,
@@ -154,8 +154,8 @@ describe Crometheus::Histogram do
         Crometheus::Sample.new(2.0, labels: {:le => "+Inf"}, suffix: "bucket")
       ]
       get_samples(histogram2).size.should eq expected.size
-      get_samples(histogram2).zip(expected).each do |actual, expected|
-        actual.should eq expected
+      get_samples(histogram2).zip(expected).each do |actual, expected1|
+        actual.should eq expected1
       end
     end
   end

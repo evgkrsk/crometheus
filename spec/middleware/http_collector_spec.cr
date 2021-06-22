@@ -35,7 +35,7 @@ describe Crometheus::Middleware::HttpCollector do
     registry = Crometheus::Registry.new(false)
     collector = Crometheus::Middleware::HttpCollector.new(registry)
     x = 0.001
-    collector.next = ->(ctx : HTTP::Server::Context) { sleep x; x += 0.02 }
+    collector.next = ->(_ctx : HTTP::Server::Context) { sleep x; x += 0.02 }
     request(collector, "GET", "/one")
     request(collector, "GET", "/one")
     request(collector, "OPTIONS", "/two")
@@ -80,7 +80,7 @@ describe Crometheus::Middleware::HttpCollector do
   end
 
   it "uses the default registry" do
-    collector = Crometheus::Middleware::HttpCollector.new
+    Crometheus::Middleware::HttpCollector.new
     metrics = Crometheus.default_registry.metrics
 
     metrics.find{ |mm|

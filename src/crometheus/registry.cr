@@ -54,7 +54,7 @@ module Crometheus
         raise ArgumentError.new "Registered metrics must have unique names"
       end
       @metrics << metric
-      @metrics.sort_by! {|mm| mm.name}
+      @metrics.sort_by!(&.name)
     end
 
     # Removes a `Metric` from the registry. The `Metric` keeps its

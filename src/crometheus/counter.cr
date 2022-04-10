@@ -24,7 +24,7 @@ module Crometheus
     end
 
     # Increments the counter value by the given number, or `1.0`.
-    def inc(x : Int | Float = 1.0)
+    def inc(x : Number = 1.0)
       raise ArgumentError.new "Counter increments must be non-negative" if x < 0
       @value += x
     end

@@ -1,3 +1,3 @@
 module Crometheus
-  VERSION = "0.2.3"
+  VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify }}
 end

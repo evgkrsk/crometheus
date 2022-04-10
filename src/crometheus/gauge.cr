@@ -26,17 +26,17 @@ module Crometheus
     end
 
     # Sets the gauge value to the given number.
-    def set(x : Int | Float)
+    def set(x : Number)
       @value = x.to_f64
     end
 
     # Increments the gauge value by the given number, or 1.0.
-    def inc(x : Int | Float = 1.0)
+    def inc(x : Number = 1.0)
       set @value + x.to_f64
     end
 
     # Decrements the gauge value by the given number, or 1.0.
-    def dec(x : Int | Float = 1.0)
+    def dec(x : Number = 1.0)
       set @value - x.to_f64
     end
 

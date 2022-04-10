@@ -1,22 +1,27 @@
-image: crystallang/crystal
+image: crystallang/crystal:latest-alpine
 
 stages:
-- test
-- deploy
+  - test
+  - deploy
 
 spec:
   stage: test
+  before_script:
+    - crystal --version
+    - shards --version
+    - shards install
   script:
-  - crystal spec --error-trace
-  - crystal doc
-  - mv docs public
+    - crystal bin/ameba.cr
+    - crystal spec --error-trace
+    - crystal doc
+    - mv docs public
   artifacts:
     paths: [public]
 
 pages:
   stage: deploy
   script:
-  - "true"
+    - "true"
   artifacts:
     paths: [public]
   only: [master]
